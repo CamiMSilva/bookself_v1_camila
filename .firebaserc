@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "bookshelfv2-camila": {
+      "hosting": {
+        "bookshelf_v1_camila": [
+          "bookshelfv2-camila"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "bookshelfv2-camila"
+  }
+}

@@ -1,5 +1,9 @@
+import { HotToastService } from '@ngneat/hot-toast';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+
+import { AutentFirebaseService } from './../servicosInterface/autent-firebase.service';
+import { Router } from '@angular/router';
 
 export function PasswordMatchValidator(): ValidatorFn {
   return(control: AbstractControl): ValidationErrors | null => {
@@ -26,11 +30,14 @@ export class AppCadastroComponent implements OnInit {
     email: new FormControl('', [Validators.required, Validators.email]),
     senha: new FormControl('', Validators.required),
     confirmaSenha: new FormControl('', Validators.required)},
-  {validador: PasswordMatchValidator()}
+  {validators: PasswordMatchValidator()}
   )
 
   constructor(
     private loginBuilder: FormBuilder,
+    private autentFirebaseService: AutentFirebaseService,
+    private toast: HotToastService,
+    private rotas: Router
 
   ) { }
   get nome() {
@@ -46,7 +53,20 @@ export class AppCadastroComponent implements OnInit {
     return this.formularioCadastro.get('confirmaSenha')
   }
   enviaCadastro(){
-    alert('Parabéns!')
+    if(!this.formularioCadastro.valid) {
+      return;
+    }
+    const {nome, email, senha} = this.formularioCadastro.value;
+    this.autentFirebaseService.cadastrarUsuario(nome, email,senha)
+    .pipe(
+      this.toast.observe({
+        success: 'Cadastro feito com sucesso!',
+        loading: 'Enviando informações...',
+        error: ({message}) => `Houve um problema: #BS${message}`,
+      })
+    ).subscribe(() => {
+      this.rotas.navigate(['/'])
+    })
   }
 
   ngOnInit(): void {

@@ -1,15 +1,30 @@
-<form [formGroup]="formularioCadastro" (ngSubmit)="enviaCadastro()">
-  <mat-form-field>
-    <input matInput placeholder="Email de Login" formControlName="email">
-    <mat-error *ngIf="email?.errors?.['required']">Email obrigatório</mat-error>
-    <mat-error *ngIf="email?.errors?.['email']">Formato de email inválido</mat-error>
-  </mat-form-field>
-  <mat-form-field>
-    <input type="password" matInput placeholder="Senha de acesso" formControlName="senha">
-    <mat-error *ngIf="senha?.errors?.['required']">Senha obrigatória</mat-error>
-  </mat-form-field>
-  <mat-card-footer>
-    <button mat-raised-button color="accent" type="submit">Entrar</button>
-    <button mat-raised-button mat-dialog-close color="primary">Fechar</button>
-  </mat-card-footer>
-</form>
+<mat-grid-list cols="1" [rowHeight]="'100px'" [gutterSize]="'1px'">
+  <mat-grid-tile [colspan]="1" [rowspan]="1">Cadastro no BookShelf</mat-grid-tile>
+  <mat-card>
+    <img mat-card-image src="../../assets/imagens/cover2.png" alt="Cover do cadastro de usuários">
+    <form [formGroup]="formularioCadastro" (ngSubmit)="enviaCadastro()">
+      <mat-form-field>
+        <input matInput placeholder="Digite seu nome" formControlName="nome">
+        <mat-error *ngIf="nome?.errors?.['required']">Nome obrigatório</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Digite seu email" formControlName="email">
+        <mat-error *ngIf="email?.errors?.['required']">Email obrigatório</mat-error>
+        <mat-error *ngIf="email?.errors?.['email']">Formato de email inválido</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input type="password" matInput placeholder="Digite sua senha" formControlName="senha">
+        <mat-error *ngIf="senha?.errors?.['required']">Senha obrigatória</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input type="password" matInput placeholder="Confirme sua senha" formControlName="confirmaSenha">
+        <mat-error *ngIf="senha?.errors?.['required']">Confirmação de senha obrigatória</mat-error>
+        <mat-error *ngIf="formularioCadastro.errors?.['senhaConfirmada']">Confirmação de senha obrigatória</mat-error>
+      </mat-form-field>
+      <mat-card-footer>
+        <button mat-button color="accent" type="submit">Cadastrar</button>
+        <button mat-button color="primary">Fechar</button>
+      </mat-card-footer>
+    </form>
+  </mat-card>
+</mat-grid-list>

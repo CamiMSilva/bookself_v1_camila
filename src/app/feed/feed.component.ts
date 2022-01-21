@@ -1,3 +1,4 @@
+import { AutentFirebaseService } from './../servicosInterface/autent-firebase.service';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component } from '@angular/core';
 import { catchError, Observable, of } from 'rxjs';
@@ -13,9 +14,9 @@ import { DashboardService } from './../servicosInterface/dashboard.service';
 })
 export class FeedComponent {
   cards$: Observable <Dashboard[]>
+  usuario$ = this.autentFirebaseService.usuarioLogado$
 
   /** Based on the screen size, switch from standard to one column per row */
-  usuario = {username:'Victor Icoma' , icone: 'remember_me'}
   cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
     map(({ matches }) => {
       if (matches) {
@@ -27,7 +28,8 @@ export class FeedComponent {
 
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private dashboardService: DashboardService
+    private dashboardService: DashboardService,
+    private autentFirebaseService: AutentFirebaseService
     ) {
       this.cards$ = dashboardService.listagemCards()
       .pipe (
